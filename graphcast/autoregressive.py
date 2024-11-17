@@ -17,9 +17,10 @@
 from typing import Optional, cast
 
 from absl import logging
-from graphcast import predictor_base
-from graphcast import xarray_jax
-from graphcast import xarray_tree
+from graphcast.graphcast import predictor_base
+from graphcast.graphcast import xarray_jax
+#from graphcast.graphcast import xarray_tree
+from graphcast.xarray_tree import *
 import haiku as hk
 import jax
 import xarray
@@ -277,7 +278,7 @@ class Predictor(predictor_base.Predictor):
           **kwargs)
 
       # Unwrap to jax arrays shape (batch,):
-      loss, diagnostics = xarray_tree.map_structure(
+      loss, diagnostics = map_structure(
           xarray_jax.unwrap_data, (loss, diagnostics))
 
       predictions = cast(xarray.Dataset, predictions)  # Keeps pytype happy.
